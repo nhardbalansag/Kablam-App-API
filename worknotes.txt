@@ -1,0 +1,6 @@
+Configure and install php version in local environment for Mac OS
+Reference: https://stackoverflow.com/questions/69786222/zsh-command-not-found-php
+
+Install and configure composer in local environment for Mac OS
+Reference: https://getcomposer.org/download/
+---------------------------------------------------------------------------------------
