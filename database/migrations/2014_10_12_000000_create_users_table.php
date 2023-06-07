@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->date('birthday')->nullable();
-            $table->string('number')->nullable(false);
+            $table->string('number')->nullable();
             $table->boolean('is_verified')->default(false);
 
             $table->bigInteger('role_id')->unsigned();

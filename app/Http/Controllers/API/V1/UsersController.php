@@ -10,11 +10,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\V1\Roles\Query\RolesQueryBuilder;
 
 class UsersController extends Controller
 {
-    public function register(Request $request)
-    {
+
+    public $response = [];
+
+    public function register(Request $request){
         try {
             $validator = Validator::make($request->all(), [
                 'first_name' => ['required', 'string', 'max:100'],
@@ -28,14 +31,14 @@ class UsersController extends Controller
             if ($validator->fails()) {
                 $errors = $validator->errors();
 
-                $response = [
+                $this->response = [
                     'token' => null,
                     'information' => null,
                     'status' => false,
                     'errors' => $errors
                 ];
 
-                return response()->json($response, 422); // 422 Unprocessable Entity - Validation Error
+                return response()->json($this->response, 422); // 422 Unprocessable Entity - Validation Error
             }
 
             $user = User::create([
@@ -56,31 +59,28 @@ class UsersController extends Controller
 
             $token = $user_information->createToken('authToken')->accessToken;
 
-            $response = [
+            $this->response = [
                 'token' => $token,
                 'information' => $user_information,
                 'status' => true,
                 'error' => null
             ];
 
-            return response()->json($response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $exception) {
-            $response = [
+            $this->response = [
                 'token' => null,
                 'information' => null,
                 'status' => false,
                 'error' => $exception->getMessage()
             ];
 
-            return response()->json($response, 500); // 500 Internal Server Error
+            return response()->json($this->response, 500); // 500 Internal Server Error
         }
     }
 
     public function login(Request $request){
         try {
-
-            $response = [];
-
             $validator = Validator::make($request->all(), [
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['required', 'string', 'min:3']
@@ -89,14 +89,14 @@ class UsersController extends Controller
             if ($validator->fails()) {
                 $errors = $validator->errors();
 
-                $response = [
+                $this->response = [
                     'token' => null,
                     'information' => null,
                     'status' => false,
                     'errors' => $errors
                 ];
 
-                return response()->json($response, 422); // 422 Unprocessable Entity - Validation Error
+                return response()->json($this->response, 422); // 422 Unprocessable Entity - Validation Error
             }
 
             $user = DB::table('users')
@@ -113,17 +113,17 @@ class UsersController extends Controller
                 $password = Hash::check($enteredPassword, $DBpassword);
                 $user_info = User::where('email', $request->email)->first();
 
-                if($password && $enteredEmail === $DBemail && $user_info->is_verified){
+                if($password && $enteredEmail === $DBemail){
                     $token = $user_info->createToken('authToken')->accessToken;
 
-                    $response = [
+                    $this->response = [
                         'token' => $token,
                         'information' => $user_info,
                         'status' => true,
                         'error' => null
                     ];
                 }else if(!$password){
-                    $response = [
+                    $this->response = [
                         'token' => null,
                         'information' => null,
                         'status' => false,
@@ -132,7 +132,7 @@ class UsersController extends Controller
                         ]
                     ];
                 }else{
-                    $response = [
+                    $this->response = [
                         'token' => null,
                         'information' => null,
                         'status' => false,
@@ -143,7 +143,7 @@ class UsersController extends Controller
                 }
 
             }else{
-                $response = [
+                $this->response = [
                     'token' => null,
                     'information' => null,
                     'status' => false,
@@ -153,16 +153,126 @@ class UsersController extends Controller
                 ];
             }
 
-            return response()->json($response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $exception) {
-            $response = [
+            $this->response = [
                 'token' => null,
                 'information' => null,
                 'status' => false,
                 'error' => $exception->getMessage()
             ];
 
-            return response()->json($response, 500); // 500 Internal Server Error
+            return response()->json($this->response, 500); // 500 Internal Server Error
+        }
+    }
+
+    public function GetUserInformation(Request $request){
+        try{
+            $user_information = RolesQueryBuilder::getUserInformation();
+
+            $this->response = [
+                'data' => $user_information,
+                'status' => true,
+                'error' => null
+            ];
+
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        }catch(Exception $exception){
+            $this->response = [
+                'data' => null,
+                'status' => false,
+                'error' => $exception->getMessage()
+            ];
+
+            return response()->json($this->response, 500); // 500 Internal Server Error
+        }
+    }
+
+    public function socialLoginRegister(Request $request){
+        try {
+            $validator = Validator::make($request->all(), [
+                'first_name' => ['required', 'string', 'max:100'],
+                'last_name' => ['required', 'string', 'max:100'],
+                // 'number' => ['required', 'string', 'max:20', 'unique:users'],
+                // 'birthday' => ['required'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'password' => ['required', 'string', 'min:3']
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+
+                $this->response = [
+                    'token' => null,
+                    'information' => null,
+                    'status' => false,
+                    'errors' => $errors
+                ];
+
+                return response()->json($this->response, 422); // 422 Unprocessable Entity - Validation Error
+            }
+
+            $user = DB::table('users')
+                    ->where('email', $request->email)
+                    ->first();
+
+            if(!empty($user)){
+                $enteredPassword = $request->password;
+                $enteredEmail = $request->email;
+
+                $DBpassword = $user->password;
+                $DBemail = $user->email;
+
+                $password = Hash::check($enteredPassword, $DBpassword);
+                $user_info = User::where('email', $request->email)->first();
+
+                if($password && $enteredEmail === $DBemail){
+                    $token = $user_info->createToken('authToken')->accessToken;
+
+                    $this->response = [
+                        'token' => $token,
+                        'information' => $user_info,
+                        'status' => true,
+                        'error' => null
+                    ];
+                }
+            }else{
+                $user = User::create([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'birthday' => Carbon::parse($request->birthday)->format('Y-m-d'),
+                    'role_id' => 1,
+                    'number' => $request->number,
+                    'login_type' => $request->login_type,
+                    'user_photo' => $request->user_photo,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password)
+                ]);
+
+                $userID = $user->id;
+
+                $user_information = User::where('id', $userID)->first();
+
+                $token = $user_information->createToken('authToken')->accessToken;
+
+                $this->response = [
+                    'token' => $token,
+                    'information' => $user_information,
+                    'status' => true,
+                    'error' => null
+                ];
+            }
+
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        } catch (Exception $exception) {
+            $this->response = [
+                'token' => null,
+                'information' => null,
+                'status' => false,
+                'error' => $exception->getMessage()
+            ];
+
+            return response()->json($this->response, 500); // 500 Internal Server Error
         }
     }
 

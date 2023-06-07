@@ -15,9 +15,17 @@ use App\Http\Controllers\API\V1\UsersController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('/register', [UsersController::class, 'register']);
 Route::post('/login', [UsersController::class, 'Login']);
+Route::post('/social', [UsersController::class, 'socialLoginRegister']);
+
+//AUTH
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::middleware('ValidateUser:client')->group(function(){
+
+        Route::prefix('me')->group(function () {
+            Route::get('/details', [UsersController::class, 'GetUserInformation']);
+        });
+
+    });
+});
