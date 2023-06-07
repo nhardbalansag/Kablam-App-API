@@ -1,0 +1,21 @@
+Configure and install php version in local environment for Mac OS
+Reference: https://stackoverflow.com/questions/69786222/zsh-command-not-found-php
+
+Install and configure composer in local environment for Mac OS
+Reference: https://getcomposer.org/download/
+---------------------------------------------------------------------------------------
+install passport
+    composer require laravel/passport -W
+---------------------------------------------------------------------------------------
+configuration of local storage
+refactoring of users table in migrations and add model configuration and query builder
+add migration, model configuration functions and query builder for roles
+create version 1 controllers for users, roles and add functions (register, login) that is previously implemented temporarily in firebase
+create middleware
+
+
+
+
+
+https://xdebug.org/wizard
+https://community.apachefriends.org/f/viewtopic.php?p=269130&sid=5f2cacc1255e67c5cf2d32d88fecfe58

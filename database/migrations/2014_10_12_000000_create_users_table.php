@@ -12,8 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->bigIncrements('id');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->date('birthday')->nullable();
+            $table->string('number')->nullable();
+            $table->boolean('is_verified')->default(false);
+
+            $table->bigInteger('role_id')->unsigned();
+            $table->foreign('role_id')
+             ->references('id')
+             ->on('roles')
+             ->onDelete('cascade')
+             ->onUpdate('cascade');
+
+            $table->string('user_photo')->nullable();
+            $table->boolean('is_active')->default(true);
+
+            $table->string('login_type')->nullable(false);
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
