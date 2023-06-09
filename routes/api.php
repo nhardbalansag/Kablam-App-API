@@ -20,7 +20,7 @@ Route::post('/register', [UsersController::class, 'register']);
 Route::post('/login', [UsersController::class, 'Login']);
 Route::post('/social', [UsersController::class, 'socialLoginRegister']);
 
-Route::post('/upload', [MediaController::class, 'uploadMedia']);
+// Route::post('/media/upload', [MediaController::class, 'uploadMedia']);
 
 
 //AUTH
@@ -29,6 +29,10 @@ Route::group(['middleware' => 'auth:api'], function() {
 
         Route::prefix('me')->group(function () {
             Route::get('/details', [UsersController::class, 'GetUserInformation']);
+        });
+
+        Route::prefix('media')->group(function () {
+            Route::post('/upload', [MediaController::class, 'uploadMedia']);
         });
 
     });

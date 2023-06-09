@@ -16,11 +16,11 @@ return new class extends Migration
 
             $table->string('origin_name');
             $table->integer('size');
-            $table->integer('duration');
+            $table->integer('duration')->nullable(true);
             $table->string('extension');
             $table->string('mime_type');
             $table->string('url');
-            $table->string('upload_type');
+            $table->string('upload_type'); // thumbnail|video|audio|copyright|proofID
             $table->boolean('is_active')->default(true)->nullable(false);
 
             $table->bigInteger('media_id')->unsigned();
