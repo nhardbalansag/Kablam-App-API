@@ -7,15 +7,12 @@ Reference: https://getcomposer.org/download/
 install passport
     composer require laravel/passport -W
 ---------------------------------------------------------------------------------------
-configuration of local storage
-refactoring of users table in migrations and add model configuration and query builder
-add migration, model configuration functions and query builder for roles
-create version 1 controllers for users, roles and add functions (register, login) that is previously implemented temporarily in firebase
-create middleware
+to run and user composer version 2
+    https://www.youtube.com/watch?v=dpJDV25tptw
+    php composer.phar
 
-
-
-
+database
+https://stackoverflow.com/questions/31154124/sqlstatehy000-1045-access-denied-for-user-usernamelocalhost-using-cakep
 
 https://xdebug.org/wizard
 https://community.apachefriends.org/f/viewtopic.php?p=269130&sid=5f2cacc1255e67c5cf2d32d88fecfe58

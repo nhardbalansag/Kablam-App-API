@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\UsersController;
@@ -18,6 +19,9 @@ use App\Http\Controllers\API\V1\UsersController;
 Route::post('/register', [UsersController::class, 'register']);
 Route::post('/login', [UsersController::class, 'Login']);
 Route::post('/social', [UsersController::class, 'socialLoginRegister']);
+
+Route::post('/upload', [MediaController::class, 'uploadMedia']);
+
 
 //AUTH
 Route::group(['middleware' => 'auth:api'], function() {
