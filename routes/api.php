@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
         Route::prefix('media')->group(function () {
             Route::post('/upload', [MediaController::class, 'uploadMedia']);
+            Route::get('/list', [MediaController::class, 'getAllUpload']);
         });
 
     });
