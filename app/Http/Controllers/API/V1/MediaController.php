@@ -25,6 +25,19 @@ class MediaController extends Controller
     public function getAllUpload(Request $request){
         try{
 
+            $medias = DB::table('medias')
+            ->join('file_uploads', 'file_uploads.media_id', '=', 'medias.id')
+            ->paginate(15);
+
+            $this->response = [
+                'data' => $medias,
+                'status' => true,
+                'message' => "success",
+                'error' => false
+            ];
+
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
         }catch (Exception $exception) {
             $this->response = [
                 'token' => null,
