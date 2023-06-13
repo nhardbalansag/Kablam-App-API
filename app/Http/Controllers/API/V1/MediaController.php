@@ -26,7 +26,8 @@ class MediaController extends Controller
         try{
 
             $medias = DB::table('medias')
-            ->join('file_uploads', 'file_uploads.media_id', '=', 'medias.id')
+            ->leftJoin('file_uploads', 'file_uploads.media_id', '=', 'medias.id')
+            ->where('file_uploads.upload_type', 'thumbnail')
             ->paginate(15);
 
             $this->response = [
