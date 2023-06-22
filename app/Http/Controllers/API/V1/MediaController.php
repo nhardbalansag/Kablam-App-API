@@ -61,18 +61,18 @@ class MediaController extends Controller
                         // ->min(1 * 1024)
                         ->max(1024 * 1024 * 1024), // 1gb
                 ],
-                'video' => [
+                'content' => [
                     'required',
-                    File::types(['mp4'])
+                    File::types(['mp4', 'mp3'])
                         // ->min(1 * 1024)
                         ->max(1024 * 1024 * 1024), // 1gb
                 ],
-                'audio' => [
-                    'required',
-                    File::types(['mp3'])
-                        // ->min(1 * 1024)
-                        ->max(1024 * 1024 * 1024), // 1gb
-                ],
+                // 'audio' => [
+                //     'required',
+                //     File::types(['mp3'])
+                //         // ->min(1 * 1024)
+                //         ->max(1024 * 1024 * 1024), // 1gb
+                // ],
                 'copyright' => ['required'],
                 'proofID' => [
                     'required',
@@ -100,12 +100,12 @@ class MediaController extends Controller
             }
 
             $has_thumbnail = $request->hasFile('thumbnail'); // jpeg|png
-            $has_video = $request->hasFile('video'); // mp4
-            $has_audio = $request->hasFile('audio'); // mp3
+            $has_content = $request->hasFile('content'); // mp4
+            // $has_audio = $request->hasFile('audio'); // mp3
             $has_copyright = $request->hasFile('copyright'); // .txt
             $has_proofID = $request->hasFile('proofID'); // pdf|jpeg|png
 
-            if($has_thumbnail && $has_video && $has_audio && $has_copyright && $has_proofID){
+            if($has_thumbnail && $has_content && $has_copyright && $has_proofID){
 
                 DB::beginTransaction();
 
@@ -124,9 +124,10 @@ class MediaController extends Controller
 
                 $file_arr = array(
                     ["file" => $request->file('thumbnail'), "type" => 'thumbnail'],
-                    ["file" => $request->file('video'), "type" => 'video'],
-                    ["file" => $request->file('audio'), "type" => 'audio'],
+                    ["file" => $request->file('content'), "type" => 'content'],
+                    // ["file" => $request->file('audio'), "type" => 'audio'],
                     ["file" => $request->file('copyright'), "type" => 'copyright'],
+                    ["file" => $request->file('proofID'), "type" => 'proofID']
                 );
 
                 foreach ($file_arr as $key => $value) {
