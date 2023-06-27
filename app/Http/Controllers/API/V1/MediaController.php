@@ -24,11 +24,12 @@ class MediaController extends Controller
 
     public function getAllUpload(Request $request){
         try{
+            $medias = Medias::with('user', 'file')->paginate(15);
 
-            $medias = DB::table('medias')
-            ->leftJoin('file_uploads', 'file_uploads.media_id', '=', 'medias.id')
-            ->where('file_uploads.upload_type', 'thumbnail')
-            ->paginate(15);
+            // $medias = DB::table('medias')
+            // ->leftJoin('file_uploads', 'file_uploads.media_id', '=', 'medias.id')
+            // ->where('file_uploads.upload_type', 'thumbnail')
+            // ->paginate(15);
 
             $this->response = [
                 'data' => $medias,
@@ -160,7 +161,7 @@ class MediaController extends Controller
                     $FileUploads->mime_type = $mimetype;
                     $FileUploads->url = $url;
                     $FileUploads->upload_type = $value['type']; // thumbnail|video|audio|copyright|proofID
-                    $FileUploads->media_id = $media->id;
+                    $FileUploads->medias_id = $media->id;
                     $FileUploads->save();
                 }
 

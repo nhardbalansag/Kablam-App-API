@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('upload_type'); // thumbnail|video|audio|copyright|proofID
             $table->boolean('is_active')->default(true)->nullable(false);
 
-            $table->bigInteger('media_id')->unsigned();
-            $table->foreign('media_id')
+            $table->bigInteger('medias_id')->unsigned();
+            $table->foreign('medias_id')
             ->references('id')
             ->on('medias')
             ->onDelete('cascade')
