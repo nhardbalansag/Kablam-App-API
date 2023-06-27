@@ -18,6 +18,6 @@ class FileUploads extends Model
         'url',
         'upload_type',
         'is_active',
-        'media_id'
+        'medias_id'
     ];
 }
