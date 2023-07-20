@@ -4,6 +4,7 @@ use App\Http\Controllers\API\V1\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\UsersController;
+use App\Http\Controllers\API\V1\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,10 @@ Route::group(['middleware' => 'auth:api'], function() {
             Route::get('/list', [MediaController::class, 'getAllUpload']);
         });
 
+        Route::prefix('contact-us')->group(function () {
+            Route::post('/email', [ContactController::class, 'SendEmail']);
+        });
+
     });
 });
+
