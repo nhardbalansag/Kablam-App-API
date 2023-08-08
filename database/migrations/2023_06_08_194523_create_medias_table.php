@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('media_title');
             $table->string('media_description');
             $table->string('user_calendar_premiere_id')->nullable(true);
-            $table->boolean('is_active')->default(true)->nullable(false);;
-
+            $table->boolean('is_active')->default(true)->nullable(false);
+            $table->json('calendar_premiere_info')->nullable(true);
             $table->bigInteger('user_id')->unsigned()->nullable(false);
             $table->foreign('user_id')
             ->references('id')
