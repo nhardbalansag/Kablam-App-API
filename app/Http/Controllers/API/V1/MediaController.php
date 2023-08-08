@@ -83,7 +83,6 @@ class MediaController extends Controller
                 ],
                 'media_title' => ['required', 'string', 'max:100', 'min:2'],
                 'media_description' => ['required', 'string', 'max:200', 'min:5'],
-                'media_description' => ['required', 'string', 'max:200', 'min:5'],
                 'copyright_media_id' => ['required', 'string', 'max:255', 'min:2'],
                 'copyright_owner_information' => ['required', 'string', 'max:255', 'min:5']
             ]);
@@ -112,6 +111,7 @@ class MediaController extends Controller
 
                 $media = new Medias;
                 $media->media_title = $request->media_title;
+                $media->user_calendar_premiere_id = $request->user_calendar_premiere_id;
                 $media->media_description =  $request->media_description;
                 $media->user_id = Auth::user()->id;
                 $media->save();
