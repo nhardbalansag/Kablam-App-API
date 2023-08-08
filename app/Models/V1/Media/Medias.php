@@ -16,6 +16,7 @@ class Medias extends Model
         'media_title',
         'media_description',
         'user_calendar_premiere_id',
+        'calendar_premiere_info',
         'is_active',
         'user_id'
     ];
