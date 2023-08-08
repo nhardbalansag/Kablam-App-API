@@ -112,6 +112,7 @@ class MediaController extends Controller
                 $media = new Medias;
                 $media->media_title = $request->media_title;
                 $media->user_calendar_premiere_id = $request->user_calendar_premiere_id;
+                $media->calendar_premiere_info = $request->calendar_premiere_info;
                 $media->media_description =  $request->media_description;
                 $media->user_id = Auth::user()->id;
                 $media->save();
