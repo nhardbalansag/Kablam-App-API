@@ -15,6 +15,7 @@ class Medias extends Model
     protected $fillable = [
         'media_title',
         'media_description',
+        'user_calendar_premiere_id',
         'is_active',
         'user_id'
     ];

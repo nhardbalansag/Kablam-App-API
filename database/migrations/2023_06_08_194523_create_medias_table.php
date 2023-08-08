@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('media_title');
             $table->string('media_description');
+            $table->string('user_calendar_premiere_id')->nullable(true);
             $table->boolean('is_active')->default(true)->nullable(false);;
 
             $table->bigInteger('user_id')->unsigned()->nullable(false);
