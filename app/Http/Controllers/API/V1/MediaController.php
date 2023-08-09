@@ -24,7 +24,7 @@ class MediaController extends Controller
 
     public function getUploadMediaByCalendarId (Request $request, $id){
         try{
-            $medias = Medias::with('user', 'file')->where('user_calendar_premiere_id', $id);
+            $medias = Medias::with('user', 'file')->where('user_calendar_premiere_id', $id)->get();
 
             $this->response = [
                 'data' => $medias,
