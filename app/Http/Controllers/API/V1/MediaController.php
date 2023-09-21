@@ -47,6 +47,31 @@ class MediaController extends Controller
         }
     }
 
+    public function getAllUserUploadedMedias(Request $request){
+        try{
+            $medias = Medias::with('user', 'file')->where('user_id', Auth::user()->id)->get();
+
+            $this->response = [
+                'data' => $medias,
+                'status' => true,
+                'message' => "success",
+                'error' => false
+            ];
+
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+        }catch (Exception $exception) {
+            $this->response = [
+                'token' => null,
+                'information' => null,
+                'status' => false,
+                'error' => $exception->getMessage()
+            ];
+
+            return response()->json($this->response, 500); // 500 Internal Server Error
+        }
+    }
+
     public function getAllUpload(Request $request){
         try{
             $medias = Medias::with('user', 'file')->paginate(15);
