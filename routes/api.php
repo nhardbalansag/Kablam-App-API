@@ -32,6 +32,10 @@ Route::group(['middleware' => 'auth:api'], function() {
             Route::get('/details', [UsersController::class, 'GetUserInformation']);
         });
 
+        Route::prefix('my-kablam')->group(function () {
+            Route::get('/upload', [MediaController::class, 'getAllUserUploadedMedias']);
+        });
+
         Route::prefix('media')->group(function () {
             Route::post('/upload', [MediaController::class, 'uploadMedia']);
             Route::get('/list', [MediaController::class, 'getAllUpload']);
