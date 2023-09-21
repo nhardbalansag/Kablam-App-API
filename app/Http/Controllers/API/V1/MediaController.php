@@ -104,6 +104,7 @@ class MediaController extends Controller
 
     public function uploadMedia(Request $request){
         try{
+            $uploadMediaResult = "";
 
             $validator = Validator::make($request->all(), [
                 'thumbnail' => [
@@ -141,6 +142,7 @@ class MediaController extends Controller
                 $errors = $validator->errors();
 
                 $this->response = [
+                    'data' => $uploadMediaResult,
                     'status' => false,
                     'message' => $errors,
                     'error' => false
@@ -217,9 +219,12 @@ class MediaController extends Controller
                 }
 
                 DB::commit();
+
+                $uploadMediaResult = Medias::with('user', 'file')->where('id', $media->id)->first();
             }
 
             $this->response = [
+                'data' => $uploadMediaResult,
                 'status' => true,
                 'message' => "success",
                 'error' => false
@@ -229,6 +234,7 @@ class MediaController extends Controller
         }catch (Exception $exception) {
             DB::rollback();
             $this->response = [
+                'data' => $uploadMediaResult,
                 'status' => false,
                 'message' => $exception->getMessage(),
                 'error' => false
