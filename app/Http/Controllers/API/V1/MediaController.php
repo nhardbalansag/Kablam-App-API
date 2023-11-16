@@ -243,4 +243,29 @@ class MediaController extends Controller
             return response()->json($this->response, 500); // 500 Internal Server Error
         }
     }
+
+    public function deleteMedia(Request $request){
+        try{
+            $uploadMediaResult = "";
+
+            $this->response = [
+                'data' => $uploadMediaResult,
+                'status' => true,
+                'message' => "success",
+                'error' => false
+            ];
+
+            return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        }catch (Exception $exception) {
+            DB::rollback();
+            $this->response = [
+                'data' => $uploadMediaResult,
+                'status' => false,
+                'message' => $exception->getMessage(),
+                'error' => false
+            ];
+
+            return response()->json($this->response, 500); // 500 Internal Server Error
+        }
+    }
 }

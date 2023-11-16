@@ -31,6 +31,8 @@ return new class extends Migration
 
             $table->string('login_type')->nullable(false);
 
+            $table->string('social_login_user_id')->nullable(true);
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
