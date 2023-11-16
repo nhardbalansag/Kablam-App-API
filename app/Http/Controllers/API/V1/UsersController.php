@@ -191,8 +191,8 @@ class UsersController extends Controller
     public function socialLoginRegister(Request $request){
         try {
             $validator = Validator::make($request->all(), [
-                // 'first_name' => ['required', 'string', 'max:100'],
-                // 'last_name' => ['required', 'string', 'max:100'],
+                'first_name' => ['required', 'string', 'max:100'],
+                'last_name' => ['required', 'string', 'max:100'],
                 // 'number' => ['required', 'string', 'max:20', 'unique:users'],
                 // 'birthday' => ['required'],
                 'email' => ['required', 'string', 'email', 'max:255'],
