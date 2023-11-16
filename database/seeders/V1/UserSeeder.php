@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                 'user_photo' => null,
                 'is_active' => true,
                 'login_type' => "app",
+                'social_login_user_id' => null,
                 'email' => "admin@email.com",
                 'email_verified_at' => now(),
                 'password' => Hash::make('admin'),

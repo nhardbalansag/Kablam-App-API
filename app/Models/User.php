@@ -28,6 +28,7 @@ class User extends Authenticatable
         'user_photo',
         'is_active',
         'login_type',
+        'social_login_user_id',
         'email',
         'email_verified_at',
         'password',

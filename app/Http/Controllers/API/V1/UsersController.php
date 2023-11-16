@@ -196,6 +196,7 @@ class UsersController extends Controller
                 // 'number' => ['required', 'string', 'max:20', 'unique:users'],
                 // 'birthday' => ['required'],
                 'email' => ['required', 'string', 'email', 'max:255'],
+                'social_login_user_id' => ['required', 'string'],
                 'password' => ['required', 'string', 'min:3']
             ]);
 
@@ -213,7 +214,7 @@ class UsersController extends Controller
             }
 
             $user = DB::table('users')
-                    ->where('email', $request->email)
+                    ->where('social_login_user_id', $request->social_login_user_id)
                     ->first();
 
             if(!empty($user)){
@@ -224,7 +225,7 @@ class UsersController extends Controller
                 $DBemail = $user->email;
 
                 $password = Hash::check($enteredPassword, $DBpassword);
-                $user_info = User::where('email', $request->email)->first();
+                $user_info = User::where('social_login_user_id', $request->social_login_user_id)->first();
 
                 if($password && $enteredEmail === $DBemail){
                     $token = $user_info->createToken('authToken')->accessToken;
@@ -244,6 +245,7 @@ class UsersController extends Controller
                     'role_id' => 1,
                     'number' => $request->number,
                     'login_type' => $request->login_type,
+                    'social_login_user_id' => $request->social_login_user_id,
                     'user_photo' => $request->user_photo,
                     'email' => $request->email,
                     'password' => Hash::make($request->password)
