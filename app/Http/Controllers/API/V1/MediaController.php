@@ -246,10 +246,16 @@ class MediaController extends Controller
 
     public function deleteMedia(Request $request){
         try{
-            $uploadMediaResult = "";
+            $result = "";
+
+            $deleted = DB::table('medias')->where('id', '=', $request->id)->delete();
+
+            if($deleted){
+                $result = $deleted;
+            }
 
             $this->response = [
-                'data' => $uploadMediaResult,
+                'data' => $result,
                 'status' => true,
                 'message' => "success",
                 'error' => false
@@ -257,9 +263,8 @@ class MediaController extends Controller
 
             return response()->json($this->response, 200, [], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         }catch (Exception $exception) {
-            DB::rollback();
             $this->response = [
-                'data' => $uploadMediaResult,
+                'data' => $result,
                 'status' => false,
                 'message' => $exception->getMessage(),
                 'error' => false
