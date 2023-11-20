@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth:api'], function() {
             Route::post('/upload', [MediaController::class, 'uploadMedia']);
             Route::get('/list', [MediaController::class, 'getAllUpload']);
             Route::get('/premiere/{id}', [MediaController::class, 'getUploadMediaByCalendarId']);
+            Route::delete('/delete', [MediaController::class, 'deleteMedia']);
         });
 
         Route::prefix('contact-us')->group(function () {
